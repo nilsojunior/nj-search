@@ -1,0 +1,22 @@
+* nj-search
+
+Simple Vim like search module for GNU Emacs.
+
+** Setup
+Example setup with [[https://github.com/emacs-evil/evil][evil]].
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "path/to/nj-search.el") ;; Add to path
+  (require 'nj-search-mode) ;; Import
+  (nj-search-mode 1) ;; Enable
+
+  ;; Define keybinds
+  (evil-define-key 'normal global-map
+    "/" 'nj-search-forward
+    "?" 'nj-search-backwards
+    "*" 'nj-search-word-forward
+    "#" 'nj-search-word-backwards
+    "n" 'nj-search-next
+    "N" 'nj-search-prev)
+
+  (advice-add 'evil-force-normal-state :before #'nj-search-clear-overlays) ;; Clear highlights
+#+end_src
