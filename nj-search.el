@@ -126,16 +126,19 @@
 (defun nj-search-update ()
   (let ((Prompt (minibuffer-contents-no-properties)))
     (with-selected-window (minibuffer-selected-window)
-      (when (and (buffer-live-p nj-search-buffer) (not (string-empty-p Prompt)))
-        (nj-search-clear-overlays)
-        (setq nj-search-prompt Prompt)
-        (nj-search-make-overlays)
-        (if nj-search-forward
-            (nj-search-find-next nj-search-start-point)
-          (nj-search-find-prev nj-search-start-point))
-        (if (> nj-search-count 0)
-            (message "%d/%d" (nj-search--current-index) nj-search-count)
-          (message "No matches")))
+      (nj-search-clear-overlays)
+      (or (and (buffer-live-p nj-search-buffer)
+               (not (string-empty-p Prompt))
+               (setq nj-search-prompt Prompt)
+               (nj-search-make-overlays)
+               (or (if nj-search-forward
+                       (nj-search-find-next nj-search-start-point)
+                     (nj-search-find-prev nj-search-start-point))
+                   (goto-char nj-search-start-point))
+               (if (> nj-search-count 0)
+                   (message "%d/%d" (nj-search--current-index) nj-search-count)
+                 (message "No matches")))
+          (goto-char nj-search-start-point))
       (nj-search-make-line-overlay (point)))))
 
 (defun nj-search-exit ()
@@ -176,7 +179,7 @@
                 (read-string "Search: ")
               (read-string "Search backwards: ")))
         (quit
-         (goto-char nj-search-start-point)))
+         (nj-search-clear-overlays)))
     (nj-search-exit)))
 
 (defun nj-search-forward ()
