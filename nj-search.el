@@ -179,6 +179,7 @@
                 (read-string "Search: ")
               (read-string "Search backwards: ")))
         (quit
+         (goto-char nj-search-start-point)
          (nj-search-clear-overlays)))
     (nj-search-exit)))
 
