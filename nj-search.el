@@ -235,4 +235,4 @@
 
 (define-minor-mode nj-search-mode "nj-search")
 
-(provide 'nj-search-mode)
+(provide 'nj-search)
