@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'thingatpt)
+
 (defface nj-search-match
   '((t :inherit isearch))
   "Face for `nj-search`.")
